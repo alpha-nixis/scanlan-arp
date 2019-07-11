@@ -17,7 +17,7 @@ static void _log_ip(uint8_t *, uint8_t *);
 void set_interface(Interface *interface, uint8_t *name){
 
     if (name == NULL){
-        // get nearest interface with is UP
+        // get nearest interface wich is UP and RUNNING
         struct if_nameindex *if_ni, *i;
         
         // get all interfaces
