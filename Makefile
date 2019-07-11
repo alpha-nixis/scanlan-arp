@@ -21,4 +21,4 @@ clean:
 	rm -rf *.o $(NAME)
 
 install:
-	cp $(NAME) /usr/bin
+	sudo cp $(NAME) /usr/bin
