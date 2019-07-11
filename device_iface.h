@@ -38,5 +38,4 @@ void set_device(Interface *);
 void set_ifr_device(uint8_t *, unsigned long);
 
 void log_interface(Interface *);
-void log_array(uint8_t *, uint8_t *, uint8_t *, uint8_t);
 #endif

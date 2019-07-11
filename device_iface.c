@@ -12,6 +12,8 @@
 #define CHECK_BITS(data, mask)    ~( (data) | (~(mask)) )
 #define FILTERED    0
 
+static void _log_ip(uint8_t *, uint8_t *);
+
 void set_interface(Interface *interface, uint8_t *name){
 
     if (name == NULL){
@@ -145,17 +147,23 @@ void set_ifr_device(uint8_t *name, unsigned long flags){
 void log_interface(Interface *interface){
     printf("Interface:\n\t");
     printf("name: \t\t%s\n", interface->name);
-    log_array(interface->ipv4, (uint8_t *) "\tipv4:\t\t", (uint8_t *) ".", 4);
-    log_array(interface->netmask, (uint8_t *) "\tnetmask:\t", (uint8_t *) ".", 4);
-    log_array(interface->broadcast, (uint8_t *) "\tbroadcast:\t", (uint8_t *) ".", 4);
-    log_array(interface->mac, (uint8_t *) "\tmac:\t\t", (uint8_t *) ".", 6);
-    log_array(interface->network, (uint8_t *) "\tnetwork:\t", (uint8_t *) ".", 4);
+    _log_ip(interface->ipv4,        (uint8_t *) "\tipv4:\t\t");
+    _log_ip(interface->netmask,     (uint8_t *) "\tnetmask:\t");
+    _log_ip(interface->broadcast,   (uint8_t *) "\tbroadcast:\t");
+    
+    printf("\tmac:\t\t");
+    for (uint8_t i = 0; i < 5; i++){
+        printf("%02x:", interface->mac[i]);
+    }
+    printf("%02x\n", interface->mac[5]);
+
+    _log_ip(interface->network,     (uint8_t *) "\tnetwork:\t");
 }
 
-void log_array(uint8_t *arr, uint8_t *str, uint8_t *delimiter, uint8_t len){
+static void _log_ip(uint8_t *ip, uint8_t *str){
     printf("%s", str);
-    for (uint8_t i = 0; i < len - 1; i++){
-        printf("%d%s", arr[i], delimiter);
+    for (uint8_t i = 0; i < 3; i++){
+        printf("%d.", ip[i]);
     }
-    printf("%d\n", arr[len - 1]);
+    printf("%d\n", ip[3]);
 }
